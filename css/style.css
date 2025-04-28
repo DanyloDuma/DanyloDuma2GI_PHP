@@ -1,15 +1,21 @@
 body {
-  height: 100vh;
+  min-height: 100vh;
   margin: 0;
+  background: linear-gradient(to right, #6a1b9a, #4a148c);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(to right, #6a1b9a, #4a148c); /* Gradiente roxo */
+  flex-direction: column;
+}
+
+header {
+  width: 100%;
 }
 
 .container {
+  flex: 1; /* Ocupa o espaço restante abaixo do header */
   width: 100%;
-  max-width: 500px;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
 }
 
 .card {
@@ -44,3 +50,61 @@ body {
   content: "\27A4  "; /* Seta para a direita (Unicode) */
 }
 
+.table-responsive {
+  overflow-x: auto;
+}
+
+.table td,
+.table th {
+  white-space: nowrap;
+  /* Impede quebras de linha */
+}
+
+.dropdown-menu {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.table-comment {
+  font-size: 0.8em;
+  color: #888;
+}
+
+.column-comment {
+  font-size: 0.7em;
+  color: #aaa;
+}
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
