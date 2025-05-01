@@ -73,6 +73,20 @@ $tables = getTableNamesAndComments($conn);
   <link rel="stylesheet" href="../css/style.css">
 </head>
 
+<!-- Modal -->
+<div id="recordModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <form id="recordForm">
+      <h4 id="modalTitle">Novo Registro</h4>
+      <div id="formFields"></div>
+      <input type="hidden" name="table" id="formTable">
+      <input type="hidden" name="id" id="formId">
+      <button type="submit" class="btn btn-success mt-3">Salvar</button>
+    </form>
+  </div>
+</div>
+
 <body>
   <header class="bg-dark text-white py-3">
     <div class="container d-flex justify-content-between align-items-center">
@@ -131,7 +145,7 @@ $tables = getTableNamesAndComments($conn);
                         <?php endforeach; ?>
                         <td>
                           <button class="btn btn-sm btn-info"
-                            onclick="editRecord('<?php echo $table['name']; ?>', <?php echo json_encode($row); ?>)">Editar</button>
+                            onclick="editRecord('<?php echo $table['name']; ?>', <?php echo htmlspecialchars(json_encode($row), ENT_QUOTES, 'UTF-8'); ?>)">Editar</button>
                           <button class="btn btn-sm btn-danger"
                             onclick="deleteRecord('<?php echo $table['name']; ?>', '<?php echo $row[array_key_first($row)]; ?>')">Excluir</button>
                         </td>
@@ -152,22 +166,100 @@ $tables = getTableNamesAndComments($conn);
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
   <script>
+    function openModal(title, table, data = {}, isEdit = false) {
+      console.log("Abrindo modal para:", table, data);
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('formFields').innerHTML = '';
+      document.getElementById('formTable').value = table;
+      document.getElementById('formId').value = data._id || '';
+
+      fetch(`../includes/db_columns.php?table=${table}`)
+        .then(res => res.json())
+        .then(columns => {
+          columns.forEach(col => {
+            if (col.EXTRA.includes('auto_increment')) return;
+
+            const label = document.createElement('label');
+            label.className = 'form-label mt-2';
+            label.textContent = `${col.COLUMN_NAME} (${col.COLUMN_TYPE})`;
+
+            const input = document.createElement('input');
+            input.className = 'form-control';
+            input.name = col.COLUMN_NAME;
+            input.value = data[col.COLUMN_NAME] || '';
+
+            // Só desativa em modo edição
+            if (isEdit && (col.COLUMN_KEY === 'PRI' || col.COLUMN_KEY === 'MUL')) {
+              input.disabled = true;
+            }
+
+
+            document.getElementById('formFields').appendChild(label);
+            document.getElementById('formFields').appendChild(input);
+          });
+
+          document.getElementById('recordModal').style.display = 'block';
+        });
+    }
+
+    function closeModal() {
+      document.getElementById('recordModal').style.display = 'none';
+    }
+
+    document.getElementById('recordForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new URLSearchParams(new FormData(form));
+      const isEdit = form.id.value !== '';
+
+      fetch(`../crud/${isEdit ? 'edit' : 'add'}.php`, {
+        method: 'POST',
+        body: formData
+      })
+        .then(res => res.text())
+        .then(response => {
+          if (response.trim() === 'success') {
+            alert('Registro salvo com sucesso!');
+            location.reload();
+          } else {
+            alert(response);
+          }
+        });
+    });
+
     function addRecord(table) {
-      // Implementar a lógica para adicionar um registro (pode ser um modal ou redirecionamento para outra página)
-      alert('Adicionar registro em ' + table);
+      openModal('Novo Registro em ' + table, table, false);
     }
 
     function editRecord(table, data) {
-      // Implementar a lógica para editar um registro
-      console.log('Editar registro em ' + table, data);
-      alert('Editar registro em ' + table);
+      console.log("editRecord chamado para tabela:", table);
+      console.log("Dados recebidos:", data);
+      data._id = data[Object.keys(data)[0]]; // assume a primeira coluna como PK
+      openModal('Editar Registro em ' + table, table, data, true);
     }
 
+
     function deleteRecord(table, id) {
-      // Implementar a lógica para excluir um registro
-      console.log('Excluir registro em ' + table + ' com ID: ' + id);
-      alert('Excluir registro em ' + table);
+      if (confirm("Deseja realmente excluir este registro?")) {
+        fetch('../crud/delete.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: `table=${table}&id=${encodeURIComponent(id)}`
+        })
+          .then(res => res.text())
+          .then(response => {
+            if (response.trim() === "success") {
+              alert("Registro excluído com sucesso.");
+              location.reload();
+            } else if (response.includes("relacionado")) {
+              alert("Este registro está relacionado a outros dados e não pode ser excluído.");
+            } else {
+              alert("Erro ao excluir: " + response);
+            }
+          });
+      }
     }
   </script>
 </body>
