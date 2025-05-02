@@ -221,7 +221,7 @@ $tables = getTableNamesAndComments($conn);
         .then(res => res.text())
         .then(response => {
           if (response.trim() === 'success') {
-            alert('Registro salvo com sucesso!');
+            alert('Registo salvo com sucesso!');
             location.reload();
           } else {
             alert(response);
@@ -237,7 +237,7 @@ $tables = getTableNamesAndComments($conn);
       console.log("editRecord chamado para tabela:", table);
       console.log("Dados recebidos:", data);
       data._id = data[Object.keys(data)[0]]; // assume a primeira coluna como PK
-      openModal('Editar Registro em ' + table, table, data, true);
+      openModal('Editar Registo em ' + table, table, data, true);
     }
 
 
@@ -251,10 +251,10 @@ $tables = getTableNamesAndComments($conn);
           .then(res => res.text())
           .then(response => {
             if (response.trim() === "success") {
-              alert("Registro excluído com sucesso.");
+              alert("Registo excluído com sucesso.");
               location.reload();
             } else if (response.includes("relacionado")) {
-              alert("Este registro está relacionado a outros dados e não pode ser excluído.");
+              alert("Este registo está relacionado a outros dados e não pode ser excluído.");
             } else {
               alert("Erro ao excluir: " + response);
             }
