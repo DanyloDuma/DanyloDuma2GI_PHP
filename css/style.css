@@ -11,7 +11,7 @@ header {
 }
 
 .container {
-  flex: 1; /* Ocupa o espaço restante abaixo do header */
+  flex: 1;
   width: 100%;
   max-width: 1200px;
   margin: 20px auto;
@@ -20,19 +20,23 @@ header {
 
 .card {
   width: 100%;
-  border: 2px solid #7b1fa2; /* Borda roxa clara */
+  border: 2px solid #7b1fa2;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
+  background-color: white;
+  border-radius: 0.5rem;
+  overflow: hidden;
 }
 
 .card-body {
-  width: 100%;
+  padding: 1.5rem;
+  overflow-x: auto;
 }
 
 .card-body h1 {
-  color: #7b1fa2; /* Cor roxa clara para o título */
+  color: #7b1fa2;
   text-align: center;
 }
 
@@ -42,22 +46,28 @@ header {
 }
 
 .btn-primary:hover {
-  background-color: #4a148c; /* Cor mais escura no hover */
+  background-color: #4a148c;
   border-color: #4a148c;
 }
 
 .btn-primary::before {
-  content: "\27A4  "; /* Seta para a direita (Unicode) */
+  content: "\27A4  ";
+}
+
+.table {
+  width: 100%;
+  table-layout: auto;
+  white-space: nowrap;
 }
 
 .table-responsive {
+  width: 100%;
   overflow-x: auto;
 }
 
 .table td,
 .table th {
   white-space: nowrap;
-  /* Impede quebras de linha */
 }
 
 .dropdown-menu {
@@ -74,6 +84,8 @@ header {
   font-size: 0.7em;
   color: #aaa;
 }
+
+/* Modal styling */
 .modal {
   display: none;
   position: fixed;
@@ -107,4 +119,10 @@ header {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+.footer{
+  background-color: #202020;
+  z-index: 1000;
+  height: 100px;
 }

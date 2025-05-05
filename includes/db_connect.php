@@ -1,15 +1,15 @@
 <?php
-//Arquivo de conexão à base dados
-$servername = "localhost"; //nome do servidor
-$username = "root"; //nome do utilizador (root)
-$password = ""; //password (nenhum)
-$dbname = "classicmodels"; //base de dados selecionada
+// Arquivo de conexão à base de dados
+$servername = "localhost"; // Nome do servidor de banco de dados
+$username = "root"; // Nome de usuário (root é o padrão em muitas instalações locais)
+$password = ""; // Senha (nenhuma por padrão em muitas instalações locais)
+$dbname = "classicmodels"; // Nome da base de dados que estamos acessando
 
-//conexão à base de dados
+// Criação da conexão
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-//caso dê erro durante a conexão, retorna a mensagem de erro
+// Verifica se ocorreu um erro na conexão
 if ($conn->connect_error) {
-  die("Erro na conexão: " . $conn->connect_error);
+  die("Erro na conexão: " . $conn->connect_error); // Caso haja erro, exibe a mensagem de erro
 }
 ?>
