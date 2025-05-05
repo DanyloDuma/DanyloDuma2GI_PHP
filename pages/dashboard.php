@@ -9,7 +9,7 @@ if (!isset($_SESSION['employeeNumber'])) {
 }
 
 // Inclui o arquivo de conexão com o banco de dados
-include '../includes/db_connect.php'; 
+include '../includes/db_connect.php';
 
 // Função para obter os dados de uma tabela e seus comentários
 function getTableDataAndComments($conn, $tableName)
@@ -78,6 +78,10 @@ $tables = getTableNamesAndComments($conn);
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ClassicModels Dashboard</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="../favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon/favicon-16x16.png">
+  <link rel="manifest" href="../favicon/site.webmanifest">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
 </head>
