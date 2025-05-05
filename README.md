@@ -85,7 +85,7 @@ A autenticação é feita através de sessão PHP, e após login o utilizador te
 4. Inicia o servidor local (por ex. via XAMPP ou WAMP)
 
 5. Abre `index.php` no navegador e inicia sessão com um utilizador existente  
-   (por exemplo, `employeeNumber = 1002`, `lastName = Murphy`)
+   (por exemplo,`E-mail = dmurphy@classicmodelcars.com`,`employeeNumber = 1002`)
 
 ---
 
